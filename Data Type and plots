@@ -1,0 +1,68 @@
+rm(list=ls())
+setwd("C:/Users/dougr/Contacts/Desktop/Analytics Communication and Visualization/Assignments/Midterm Project")
+library(dplyr)
+library(readxl)
+library(car)
+library(tidyr)
+
+dating <- read.csv("Dating.csv")
+Wave1 <- filter(dating,dating$wave==1)
+
+summary(Wave1)
+str(Wave1)
+
+Wave1$iid <- factor(Wave1$iid)
+Wave1$id <- factor(Wave1$id)
+Wave1$idg <- factor(Wave1$idg)
+Wave1$wave <- factor(Wave1$wave, ordered=F)
+Wave1$round <- factor(Wave1$round)
+Wave1$position <- factor(Wave1$position)
+Wave1$order <- factor(Wave1$order)
+Wave1$partner <- factor(Wave1$partner)
+Wave1$pid <- factor(Wave1$pid)
+Wave1$gender <- factor(Wave1$gender, levels=c(0,1),
+                        labels=c("Female","Male"), ordered=F)
+Wave1$match <- factor(Wave1$match, levels=c(0,1),
+                       labels=c("No","Yes"), ordered=T)
+Wave1$samerace <- factor(Wave1$samerace, levels=c(0,1),
+                          labels=c("No","Yes"), ordered=T)
+Wave1$age_o <- factor(Wave1$age_o)
+Wave1$race_o <- factor(Wave1$race_o, levels=c(1:6), 
+                        labels=c("Black/African American",
+                                 "European/Caucasian-American",
+                                 "Latino/Hispanic American",
+                                 "Asian/Pacific Islander/Asian-American",
+                                 "Native American",
+                                 "Other"), ordered=F)
+Wave1$dec_o <- factor(Wave1$dec_o, levels=c(0,1),
+                      labels=c("No","Yes"), ordered=T)
+Wave1$race <- factor(Wave1$race, levels=c(1:6), 
+                       labels=c("Black/African American",
+                                "European/Caucasian-American",
+                                "Latino/Hispanic American",
+                                "Asian/Pacific Islander/Asian-American",
+                                "Native American",
+                                "Other"), ordered=F)
+Wave1$met_o <-factor(Wave1$met_o, levels=c(0,1),
+                       labels=c("No","Yes"), ordered=T)
+Wave1$age <- factor(Wave1$age)
+Wave1$field <- factor(Wave1$field)
+Wave1$undergra <- factor(Wave1$undergra)
+Wave1$from <- factor(Wave1$from)
+Wave1$zipcode <- factor(Wave1$zipcode)
+Wave1$career <- factor(Wave1$career)
+Wave1$field <- factor(Wave1$field)
+Wave1$goal <- factor(Wave1$goal)
+Wave1$date <- factor(Wave1$date)
+Wave1$go_out <- factor(Wave1$go_out)
+
+#regression attempts
+fit1 <- lm(wave~id,data=Wave1)
+summary(fit1)
+fit1
+
+#dating Correlations
+pairs(iid~gender+match+int_corr+samerace+age_o+race_o,data=Wave1)
+pairs(match~samerace,data=Wave1)
+
+plot(y=Wave1$pf_o_amb,x=Wave1$race)
